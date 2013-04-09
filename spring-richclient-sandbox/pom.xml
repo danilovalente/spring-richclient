@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.richclient</groupId>
+        <artifactId>spring-richclient</artifactId>
+        <version>1.1.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>spring-richclient-sandbox</artifactId>
+    <packaging>jar</packaging>
+    <name>Spring Rich Client sandbox</name>
+    <description>
+        Sandbox with code in development.
+        The code contained in the sandbox is very volatile.
+        Changes can violate backwards compatibility frequently.
+        In time this code is promoted to another module.
+    </description>
+
+    <dependencies>
+        <!-- Spring rich -->
+        <dependency>
+            <groupId>org.springframework.richclient</groupId>
+            <artifactId>spring-richclient-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.richclient</groupId>
+            <artifactId>spring-richclient-core</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <!-- Logging -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <!-- Components -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.glazedlists</groupId>
+            <artifactId>glazedlists_java15</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>forms</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

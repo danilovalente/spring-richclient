@@ -1,0 +1,75 @@
+ -----
+ Conventions
+ -----
+ Geoffrey De Smet
+ -----
+
+Introduction
+
+   Conventions are important to keep the project consistent.
+
+Design
+
+    * Anything that breaks backwards compatibility should be recipe-like documentated
+    in <<</src/site/apt/user/upgrading/upgradingTo?.?.x.apt>>>
+
+Code style
+
+    See the development setup on how to install our code style in your IDE.
+
+    * We follow {{{http://www.springframework.org/development}Spring's conventions}}, which are a dialect of
+    {{{http://java.sun.com/docs/codeconv/}Sun coding conventions for Java}}, with these few differences:
+
+        * The maximum line length is 120 chars instead of 80 chars.
+
+        * Indentation is done by tabs of 4 spaces.
+
+        * A new line before <<<else>>>, <<<catch>>> and <<<finally>>>.
+
+        []
+
+    * Do not use subversion variables such as <<<$Revision$>>>:
+    if you need that information, use your IDE.
+
+Naming Conventions
+
+* Main code
+
+    * Do not use prefixes in instance variables, such as <<<this.>>> (unless they are shadowed) or <<<_>>>:
+    your IDE will color them differently anyway.
+
+* Test code
+
+    * All testcase names should end with <<<Tests>>>.
+
+    * Abstract testcase names should end with <<<AbstractTests>>>
+    so the build process doesn't try to run them.
+
+Build process
+
+    The project root pom is the (in)direct parent pom of all module poms.
+    Therefore dependency configuration is inherited.
+
+    * All versions should be specified in the project root pom: never in a module pom.
+
+    * All poms should only depend on their direct dependencies.
+
+    * Dependency scope is usually defined in the project root pom.xml (under discussion)
+
+    * Dependencies should be marked optional (if they are optional) in the module pom. 
+
+Documentation
+
+* Javadocs
+
+    * Package javadocs should be added in <<<package-info.java>>> files, not in <<<package.html>>> files.
+
+    * Try to consistenly use the following javadoc tags:
+
+        * <<<@author Julius Caesar>>> <(to have an idea who knows that code best)>
+
+        * <<<@since 0.3>>> <(for a pom version of "0.3.0-SNAPSHOT")>
+
+* Site documentation
+
+    * All apt/fml/xdoc files should be in camelCase starting with a lower case letter.

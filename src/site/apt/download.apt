@@ -1,0 +1,69 @@
+ -----
+ Download
+ -----
+ Geoffrey De Smet
+ -----
+
+Latest stable release
+
+    Stable releases are available from
+    {{{http://sourceforge.net/project/showfiles.php?group_id=113660}SourceForge}}.
+
+Maven 2 releases
+
+    Add this in your pom.xml and run <<<mvn compile>>> or <<<mvn install>>>.
+    Replace <<<VERSION>>> with the latest version.
+
++--
+<properties>
+  <springRichclient.version>VERSION</springRichclient.version>
+</properties>
+...
+<repositories>
+    <repository>
+        <id>springRichclientRepository</id>
+        <name>Spring rich client repository</name>
+        <url>http://spring-rich-c.sourceforge.net/maven2repository</url>
+    </repository>
+</repositories>
+...
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.richclient</groupId>
+        <artifactId>spring-richclient-resources</artifactId>
+        <version>${springRichclient.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.richclient</groupId>
+        <artifactId>spring-richclient-core</artifactId>
+        <version>${springRichclient.version}</version>
+    </dependency>
+</dependencies>
++--
+
+    Warning: The current repostory, at SourceForge, disconnects quite often on large files,
+    so you might need to rerun the maven command several times...
+
+    Note: If you are using spring-richclient in multiple modules, make use of <<<dependencyManagement>>>.
+
+Nightly builds (unstable)
+
+    There are 2 ways to get a nightly build
+
+    * The latest snapshots are sometimes available in
+    {{{http://spring-rich-c.sourceforge.net/maven2snapshotrepository/org/springframework/richclient}the snapshot repository}}.
+    
+    You can also configure this in your pom.xml if like to live on the edge (and shoot yourself in the foot).
+
+    * You can build the latest snapshots from source (RECOMMENDED).
+	
+    Checkout spring-richclient from {{{source-repository.html}the source repository}},
+    build it with <<<mvn -Dmaven.test.skip=true install>>>
+    and then optionally deploy it to your internal repo if other team members need it:
+	
++--
+mvn -Dmaven.skip.test -DaltDeploymentRepository=myOwn::default::scp://myRepoIp/myRepoPath deploy
++--
+
+    This way you'll only update to the latest snapshot when you're ready (and have read the upgrading guide).
+	More information in the {{{development/developmentSetup.html}the development guide}}.

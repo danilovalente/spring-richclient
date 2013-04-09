@@ -1,0 +1,140 @@
+ -----
+ Release checklist
+ -----
+ Jan Hoskens
+ Geoffrey De Smet
+ -----
+
+Purpose
+
+    A succesfull release should accomplish the following objectives:
+
+    * Tagged in subversion
+
+    * Release notes are included where needed
+
+    * Each jar is deployed in our maven2repository and possibly uploaded to Ibiblio
+
+    * The zip/tar.gz (assembly) are available for download on SourceForge
+
+    * News item on homepage
+
+    * Press is contacted: Freshmeat, Java.net news, ...
+
+    All this is done by following the checklist.
+
+Checklist
+
+    * Do a <<<-DdryRun=true>>> with the release plugin and fix any issues.
+
+    * Release version on JIRA: any issues that are not closed/resolved must be moved to next version,
+    all issues that are resolved should be closed, all closed issues that aren't assigned to a fix version must
+    set their fix version to the current release version. (Use bulk edit.)
+
+    * Set the version of /spring-richclient-full/pom.xml,  /spring-richclient-release/pom.xml and
+    /spring-richclient-archetype/src/main/resources/archetype-resources/pom.xml to the correct one
+
+    * Prepare with the release plugin (user/pass for svn):
+
+---
+mvn release:prepare -Duser -Dpassword
+---
+
+    This does the following:
+
+        * Plugin asks for a release version and proposes the current version without SNAPSHOT
+        (this is ok, press enter for each subproject)
+
+        * Plugin will commit these changes prior to setting the tag, as /release and /full aren't touched you had
+        to set them manually in a previous step.
+
+        * Plugin asks for a tag to set in subversion, use the following format (X.X.X = version):
+
+---
+RELEASE-X.X.X
+---
+
+
+        * The plugin will now tag current head in svn
+
+        * Plugin asks for the next developer version, enter the next version with snapshot extension: X.X.X-SNAPSHOT
+
+        * Plugin will commit pom's with next developer version.
+
+    * perform release with release plugin, this will checkout the svn tagged release, install and deploy the components:
+
+---
+mvn release:perform
+---
+
+    * Build the full jar and the release zip:
+
+---
+cd full
+mvn install
+cd ../release
+mvn package
+---
+
+    * Change the distributionManagement in the project root <<<pom.xml>>> to <archive deployment>
+    and run <<<mvn site-deploy>>>. Change it back afterwards. Add a link to the site in <<</src/site/site.xml>>>.
+
+    * ftp to upload.sourceforge.net with username anonymous and password your sf login,
+    place release zip under /incoming
+
+    * Create a release on SourceForge (admin) and attach the zip to this release, changes and readme can be uploaded.
+
+Publicity
+
+    * Write a short <release text> about the new improvements and bugfixes in the release.
+    See the release-text of previous releases. For example:
+
++--
+    Spring-richclient 0.2.1 has several improvements, such as better view support,
+    new binders (shuttlelist, nachocalendar, tiger enums), a new sample <simple>,
+    more improvements and over 50 bugfixes.
++--
+
+    * Open <<</src/site/apt/index.apt>>> and create a new news item for the release.
+    Add the <release text> under the date announcement. Also add a link to JIRA's release notes.
+    For example:
+
++--
+    * <<2006-04-21>>: Release 0.2.1 available: see {{{download.html}download}}
+
+    Spring-richclient 0.2.1 has several improvements, such as better view support,
+    new binders (shuttlelist, nachocalendar, tiger enums), a new sample "simple",
+    more improvements and over 50 bugfixes.
+
+    See {{{http://opensource.atlassian.com/projects/spring/secure/ReleaseNote.jspa?projectId=10010&styleName=Html&version=10341}Release notes}}
++--
+
+    * Open {{http://today.java.net/today/news/}} and follow the link to the <submission form>.
+    Fill in the form, but as a description use our <short abstract> and the <release text>.
+    For example:
+
++--
+Title: Spring-richclient 0.2.1
+Source: Spring-richclient team
+Source URL: http://spring-rich-c.sf.net/
+Link to News story: http://spring-rich-c.sf.net/
+
+Description:
+
+Spring-richclient's mission is to provide an elegant way to build highly-configurable,
+GUI-standards-following rich-client applications faster by leveraging the Spring Framework,
+and a rich library of UI factories and support classes.
+
+Spring-richclient 0.2.1 has several improvements, such as better view support,
+new binders (shuttlelist, nachocalendar, tiger enums), a new sample "simple",
+more improvements and over 50 bugfixes.
++--
+
+    * Open {{http://freshmeat.net/}} and click on <submit>.
+    Search for the project <<<spring-richclient>>> and add a release (branch?) for
+    the new version, use the <release text> again.
+
+   * Contact Keith Donald (or anyone else of Interface21) by e-mail and ask him to put
+   the a notice with the <release text> on {{{http://www.springframework.org}}}.
+
+   * Post a message on the user forum which includes the <release text> again.

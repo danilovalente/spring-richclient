@@ -1,0 +1,22 @@
+ -----
+ Architecture
+ -----
+ Geoffrey De Smet
+ -----
+
+Directory structure
+
+    The project root has the parent <<<pom.xml>>> file.
+    Each module has a separate directory and <<<pom.xml>>> file.
+
+[../images/directoryStructure.png] Directory structure
+
+Spring-richclient architecture
+
+    This UML diagram shows how the modules depend on each other:
+
+[../uml/architecture.png] Architecture
+
+Petclinic architecture
+
+[../uml/petclinicArchitecture.png] Petclinic architecture

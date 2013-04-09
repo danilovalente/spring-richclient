@@ -1,0 +1,49 @@
+ -----
+ Articles
+ -----
+ Geoffrey De Smet
+ -----
+
+Introduction
+
+    These articles (press, blogs) have been written about this project:
+
+Press
+
+    * Release 1.0.0:
+    
+        * {{{http://java.dzone.com/news/getting-further-with-spring-rc}Getting Further with Spring RCP (DZone Javalobby)}}
+    
+        * {{{http://java.dzone.com/news/spring-rcp-tutorial}Getting Started with Spring RCP (DZone Javalobby)}}
+        
+        * {{{http://www.doclo.be/lieven/articles/creatingbinderrcp.html}Write a custom binder (Lieven Doclo)}}
+
+    * Release 0.2.1:
+
+        * {{{http://today.java.net/pub/n/Spring-richclient0.2.1}Java news}}
+
+    * Release 0.1.0:
+
+        * {{{http://today.java.net/pub/n/Spring-Richclient0.1.0}Java news}}
+
+        * {{{http://www.theserverside.com/tss?service=direct/0/NewsThread/threadViewer.bookmark.link&sp=l39842}The server side}}
+
+        * {{{http://www.javalobby.org/java/forums/t68850.html}Javalobby}}
+
+Blogs
+
+    * {{http://spring-rich.blogspot.com/}}
+
+    * {{{http://pa.rsons.org/node/6}Spring Richclient: A Journey}}
+
+    * {{http://robwilsonjavagui.blogspot.com/}}
+
+    * {{{http://amcauley.blogspot.com/}Checking out Spring-richclient with TortoiseSVN}}
+
+Fan websites
+
+    * {{{https://scifi.homelinux.net/mediawiki/index.php/Spring_Framework}Wikigate Spring Framework}}
+
+Contact us
+
+    {{{../mail-lists.html}Contact us}} to add your articles here.

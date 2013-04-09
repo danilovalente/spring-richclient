@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs title="Frequently Asked Questions">
+  <part>
+    <faq>
+      <question>When will the next version be released?</question>
+      <answer>
+        <p>
+          We're working on a steady release schedule. Stay tuned on the website.
+        </p>
+      </answer>
+    </faq>
+    <faq>
+      <question>Can I use the project under java 1.4?</question>
+      <answer>
+        <p>
+          No, as of 1.1.0 the codebase can only be run on 1.5+ JVM environments.
+        </p>
+      </answer>
+    </faq>
+  </part>
+</faqs>

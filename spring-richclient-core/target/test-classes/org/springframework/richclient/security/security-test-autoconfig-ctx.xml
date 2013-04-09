@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+<!--  No security manager is defined here, only an authentication manager.
+      The DefaultApplicationSecurityManager should auto-configure itself to
+      use the defined authentication manager
+-->
+
+<bean id="serviceLocator" class="org.springframework.richclient.application.ApplicationServicesLocator">
+    <property name="applicationServices" ref="applicationServices"/>
+</bean>
+
+<bean id="applicationServices"
+    class="org.springframework.richclient.application.support.DefaultApplicationServices">
+</bean>
+
+<bean id="authenticationManager"
+	class="org.springframework.richclient.security.TestAuthenticationManager"/>
+
+<bean id="eventCounter"
+	class="org.springframework.richclient.security.DefaultApplicationSecurityManagerTests$EventCounter"/>
+
+</beans>

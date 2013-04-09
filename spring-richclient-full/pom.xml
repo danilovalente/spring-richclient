@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.richclient</groupId>
+    <artifactId>spring-richclient</artifactId>
+    <version>1.1.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>spring-richclient-full</artifactId>
+  <!--
+    TODO HACK packaging is pom but actually a jar is assembled and deployed
+    and used ar packaging jar in the release module.
+    Specifing it jar probably won't work as an empty jar would replace the assembly jar in the repo.
+  -->
+  <packaging>pom</packaging>
+  <name>Spring Rich Client full library (all modules)</name>
+  <description>A convenience union of all of the modules (except sandbox and jdk6).</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/artifact.xml</descriptor>
+            <descriptor>src/assembly/source.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>attached</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!-- Internal -->
+    <dependency>
+      <groupId>org.springframework.richclient</groupId>
+      <artifactId>spring-richclient-resources</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.richclient</groupId>
+      <artifactId>spring-richclient-core</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>

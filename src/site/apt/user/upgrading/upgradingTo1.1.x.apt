@@ -1,0 +1,38 @@
+ -----
+ Upgrading
+ -----
+ Lieven Doclo
+ Geoffrey De Smet
+ -----
+
+Upgrading from 1.0.x to 1.1.0
+
+    * Module merge
+
+    Some modules have been merged to make Spring Rich client homogenous. The core, support, forms, binding and jdk5 module
+    have been merged into the core module.
+
+    * Upgrade to Java 5
+
+    The baseline for the codebase is now Java 5. Please take this into account when upgrading your applications.
+
+    * JIDE integration pulled into project
+
+    To facilitate keeping up with the changes in RCP, the JIDE integration project has been included into the Spring RCP project.
+    However, it's not included in the main RCP build cycle due to licensing restrictions.
+
+    * Dependency upgrades
+
+    A lot of the dependencies have been updated to the latest version. Please check your dependencies before upgrading.
+
+Upgrading from 1.1.0 to 1.1.1
+
+    * Exception handler improvements
+
+    In the messages the key "emailNotifierErrorReporter.title" has been renamed to "emailNotifierErrorReporter.subject"
+
+    The class org.springframework.richclient.exceptionhandling.EmailNotifierErrorReporter
+    has been renamed to org.springframework.richclient.exceptionhandling.JdicEmailNotifierErrorReporter
+    to allow for a Java6EmailNotifierErrorReporter (RCP-607) to be created later.
+
+    

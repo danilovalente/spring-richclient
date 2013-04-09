@@ -1,0 +1,221 @@
+ -----
+ Upgrading
+ -----
+ Geoffrey De Smet
+ Mathias Broekelmann
+ -----
+
+Upgrading from 0.2.x to 1.0.0
+
+    * Exception handling refactor
+
+    <Take a look at the Petclinic's exceptionHandling view and it's application context.>
+    BadCredentialsException shouldn't be logged as an error (but a warn or info), while
+    OutOfMemoryError should be logged as an error and force an application shutdown.
+    This is now configurable, with the support classes in the tiger module.
+    There is an inferiour default, that works in 1.4.
+
+    It's no longer possible to wire in a eventExceptionHandler Class into the lifecycleAdvisor.
+
++--
+<bean id="lifecycleAdvisor"
+    class="org.springframework.richclient.samples.simple.app.SimpleLifecycleAdvisor">
+    ...
+    <property name="eventExceptionHandler" ... <!-- No longer possible -->
+</bean>
++--
+
+    Instead there is the much finer grained system, by injecting a registerableExceptionHandler.
+    If you are using java 1.5, use at least this:
+
++--
+<bean id="petclinicLifecycleAdvisor" ...>
+    ...
+    <property name="registerableExceptionHandler" ref="exceptionHandler"/>
+</bean>
+
+<bean id="exceptionHandler" class="org.springframework.richclient.exceptionhandling.MessagesDialogExceptionHandler">
+    <property name="logLevel" value="ERROR"/>
+    <property name="shutdownPolicy" value="NONE"/>
+</bean>
++--
+
+    With this in your <<<messages.properties>>>:
+
++--
+java.lang.RuntimeException.caption = Unexpected general bug
+java.lang.RuntimeException.description = \
+  The application experienced an unexpected bug,\n\
+  due to a programming error.\n\
+  \n\
+  The application is possibly in an inconsistent state.\n\
+  It's recommended to reboot the application.\n\
+  \n\
+  The exact bug is:\n\
+  {0}\n\
+  \n\
+  Please report this bug.
+
+java.lang.Error.caption = Unexpected serious system failure
+java.lang.Error.description = \
+  A serious system failure occured.\n\
+  \n\
+  The application is possibly in an inconsistent state.\n\
+  Reboot the application.\n\
+  \n\
+  The exact bug is:\n\
+  {0}\n\
+  \n\
+  Please report this bug.
++--
+
+    See Petclinic for an advanced features example using the delegating exception handler,
+    which allows you to analyze the throwable and delegate to a different handler
+    based on it's type etc.
+
+    * Exception catching improvements in ApplicationLauncher
+
+    ApplicationLauncher no longer wraps it's runtime exceptions in an <<<ApplicationException>>>
+    and it no longer logs them either before throwing.
+    This is to avoid double logging when both logging and throwing - as the thrown will probably be logged too.
+
+    So you might want to try-catch your ApplicationLauncher startup:
+
++--
+try {
+    new ApplicationLauncher(...);
+} catch (RuntimeException e) {
+    logger.error("RuntimeException during startup", e);
+}
++--
+
+    Or you could initialize an <<<LoggingExceptionHandler>>> on your main thread before using ApplicationLauncher.
+
+    * In <<<LoginCommand>>>, the method
+    <<<handleLoginFailure(Authentication authentication, AcegiSecurityException e)>>> has been removed.
+
+    <<<LoginCommand>>> no longer handles an authentication exception, but lets the global exception handler handle it.
+
+    To get a decent i18n based bad credentials message, you 'll probably want to enable a
+    <<<MessagesDialogExceptionHandler>>> (see petclinic) and configure this in your <<<messages.properties>>>:
+
++--
+org.acegisecurity.BadCredentialsException.caption = Authentication failed
+org.acegisecurity.BadCredentialsException.description = \
+  Your username did not match your password.\n\
+  \n\
+  Please verify your username and password.
+
+org.acegisecurity.AuthenticationException.caption = Authentication failed
+org.acegisecurity.AuthenticationException.description = \
+  You are not or no longer allowed to log in.\n\
+  \n\
+  Please verify your username.
++--
+
+    * Automatic service bean lookup
+
+    <<<DefaultApplicationServices>>> now searches for a bean with a name of the decapitalized short name of the requested service type,
+    if no bean was defined through direct injection. <<<ApplicationServicesLocator>>> can be used to lookup custom services as well without
+    injecting them through <<<registryEntries>>> property of <<<DefaultApplicationServices>>>.
+
+    If the service type is <<<org.springframework.rules.RulesSource>>> the name to lookup will be <<<rulesSource>>>. If a bean can be found in
+    the current application context and it implements <<<org.springframework.rules.RulesSource>>> it will be used as the implementation for it.
+
+    * Upgraded dependencies on spring 2.0 final.
+
+  * ApplicationDialog small refactoring
+
+  <<<setParent(Window)>>> is replaced by <<<setParentComponent(Component)>>>. This allows to pass any component which has the appropriate Frame/Dialog in it's hierarchy.
+  Window can still be retrieved by <<<getParentWindow()>>>.
+
+  <<<setLocationRelativeTo(Component)>>> is added. Before this method, the parent component was always used (if given) to set the location, but this might not be the preferred way.
+  This method provides more flexibility as to where your dialog will be placed besides the <<<setLocation(point)>>> method.
+
+    * ShowViewCommand no longer has a no-args constructor. See JIRA issue RCP-452 for details.
+
+    * LabelInfoFactory is now deprecated in favour of factory methods on the appropriated LabelInfo and CommandButtonLabelInfo classes.
+
+    * All instance variables which had a name prefix of <<<_>>> have been removed of that prefix.
+    For example all <<<_logger>>> varialbes have been renamed to <<<logger>>>.
+
+    * ValidationInterceptor now does an initial check when registering Guarded objects or MessageReceivers. This because the ValidationResultsModel can already contain
+    some values.
+
+    * SimpleValidationResultsReporter has it's guarded component removed because this was a mixed concern. If you need this behaviour, use the addGuarded(guard) methods on 	Form or simply construct your own FormGuard object and add your guarded object with mask FormGuard.FORMERROR_GUARDED.
+
+    * ValidationResultsReporter is refactored and had its parent/child methods removed. Chaining ResultsReporters usually results in strange and complicated behaviour (especially when having multiple parent-child relations and when the hierarchy changes a lot). It's better to chain the ValidationResultsModels and have them collect and forward the messages.
+
+    * ValidationResultsModel now can have children. When chaining DefaultFormModels, their ValidationResultsModels are linked as well and they forward their events as needed. Any ValidationListener registered on a ValidationResultsModel will receive events of it's children too. A ValidationResultsModel can be used to combine multiple other resultsModels and bundle their events.
+
+    * Clean up and improvements to the delegating exception handler
+
+      <<<org.springframework.richclient.exceptionhandling.DelegatingExceptionHandler>>>
+      has been moved to
+      <<<org.springframework.richclient.exceptionhandling.delegation.DelegatingExceptionHandler>>>
+
+      <<<org.springframework.richclient.exceptionhandling.DelegatingExceptionHandlerDelegate>>>
+      has been moved and renamed to
+      <<<org.springframework.richclient.exceptionhandling.delegation.SimpleExceptionHandlerDelegate>>>
+
+      It's now possible to plug in your own <<<ExceptionHandlerDelegate>>>'s
+      and there's a new one which can select based on a exception chain hierarchy
+      <<<ChainInspectingExceptionHandlerDelegate>>>
+      (however a simple ExceptionPurger in SimpleExceptionHandlerDelegate will suffice most likely).
+
+    * Most exception handlers now support ExceptionPurger, which is great for unwrapping wrapper exceptions
+      or bubbling out very specific exceptions from an exception chain.
+
+    * MessagesDialogExceptionHandler can now have a messagesKey,
+      which turns off the dynamic messagesKey determination based on the throwable.
+
+      MessagesDialogExceptionHandler no longer has evaluatedChainedIndex, use a DefaultExceptionPurger instead.
+
+    * <<<org.springframework.richclient.exceptionhandling.SimpleLoggingExceptionHandler>>>
+       has been renamed to
+      <<<org.springframework.richclient.exceptionhandling.SilentExceptionHandler>>>
+
+    * Message has been refactored to an interface, a DefaultMessage implementation is provided, replace all uses of Message constructor with the one from DefaultMessage. More info in issue: RCP-479.
+
+    * ValidationMessage now extends Message, no converting is necessary from now on
+
+    * Severity has been moved to the core package as it is used in the Message interface (not only in validation cases), update your imports
+
+    * Magic beannames menuBar/toolBar/windowCommandManager are removed, add the following to your advisor configuration:
+
++--
+<bean id="lifecycleAdvisor" class=...
+    ...
+    <property name="windowCommandManagerBeanName" value="windowCommandManager" />
+    <property name="menubarBeanName" value="menuBar" />
+    <property name="toolbarBeanName" value="toolBar" />
+</bean>
++--
+
+    * Cleaned up AbstractFormBuilder. Deprecated methods are removed, use the createXXX methods instead of the old getXXX methods.
+
+    * StatusBarCommandGroup has been refactored to StatusBar. The ApplicationLifecycleAdvisor now has a getStatusBar() method which returns the default implementation of StatusBar (DefaultStatusBar).
+
+    * Images are moved to a namespaced package. The resourceBasePath that was used to prefix the images and was defined in your application context should be removed.
+    Your own images.properties file should use full paths and not rely on the resourceBasePath.
+
+    * Renamed module spring-richclient-tiger to spring-richclient-jdk5
+    
+ Upgrading from 1.0.0 to 1.0.1
+ 
+    * The Acegi Security Framework has been replaced with it's newer version Spring Security. Update your dependencies and messages:
+ 
++--
+org.springframework.security.BadCredentialsException.caption = Authentication failed
+org.springframework.security.BadCredentialsException.description = \
+  Your username did not match your password.\n\
+  \n\
+  Please verify your username and password.
+
+org.springframework.security.AuthenticationException.caption = Authentication failed
+org.springframework.security.AuthenticationException.description = \
+  You are not or no longer allowed to log in.\n\
+  \n\
+  Please verify your username.
++--   
+    

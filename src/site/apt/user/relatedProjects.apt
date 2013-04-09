@@ -1,0 +1,41 @@
+ -----
+ Related projects
+ -----
+ Geoffrey De Smet
+ -----
+
+Projects that expand Spring-richclient
+
+    * {{{https://jide-springrcp.dev.java.net/}Jide-springrcp}}
+
+Projects for which there is integration in Spring-richclient
+
+    * {{{https://looks.dev.java.net/}JGoodies looks}}
+
+    * {{{https://forms.dev.java.net/}JGoodies forms}}
+
+    * {{{https://jgoodies.dev.java.net/}Other JGoodies components}}
+
+    * {{{http://www.publicobject.com/glazedlists/}Glazedlists}}
+
+    * {{{http://static.springframework.org/spring-security/site/index.html}Spring security}}
+
+    * {{{http://java.sun.com/products/javawebstart//}Java webstart}}
+
+Projects which might have integration in Spring-richclient in the future
+
+    * {{{http://www.netbeans.org/}Matisse}}
+
+    * {{{https://swingx.dev.java.net/}SwingX}}
+
+    * {{{https://flexdock.dev.java.net/}Flex dock}}
+
+    * {{{http://jasperreports.sourceforge.net/}Jasper reports}}
+
+    * {{{https://eventbus.dev.java.net/}Eventbus}}
+
+    * {{{https://elf.dev.java.net/}ELF}}
+
+Contact us
+
+    {{{../mail-lists.html}Contact us}} to add your project here.
