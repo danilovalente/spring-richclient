@@ -509,7 +509,7 @@
     </reporting>
 
     <properties>
-        <spring.version>5.2.3.RELEASE</spring.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
     </properties>
 
     <profiles>
